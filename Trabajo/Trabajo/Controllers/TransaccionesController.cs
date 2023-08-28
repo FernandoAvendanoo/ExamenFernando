@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using static iTextSharp.text.pdf.AcroFields;
 
 namespace Trabajo.Controllers
 {
@@ -124,12 +125,60 @@ namespace Trabajo.Controllers
             }
             return RedirectToAction("Transacciones");
         }
-        public ActionResult GenerarPDF(string id, string des)
+        public ActionResult GenerarPDF(string id, string des,int tipoP, int cliente, int estadoProc, int tipoProd, int origen)
         {
-            Console.WriteLine("a");
             Document doc = new Document();
+            string nCliente = "";
+            string nTipoP = "";
+            string nEstadoProc = "";
+            string nTipoProd = "";
+            string nOrigen = "";
 
             string filePath = Server.MapPath("~/archivos/transaccion_"+id+".pdf");
+            List<tblClientes> dataC = examen.tblClientes.ToList();
+
+            foreach (tblClientes t in dataC)
+            {
+                if (t.idClientes == cliente){
+                    nCliente = t.PrimerNombre.ToString() + t.PrimerApellido;
+                }
+            }
+
+            List<catEstadoProcesos> dataEP = examen.catEstadoProcesos.ToList();
+            foreach (catEstadoProcesos dEP in dataEP)
+            {
+                if (dEP.idEstadoProceso == estadoProc)
+                {
+                    nEstadoProc = dEP.descripcion;
+                }
+            }
+
+            List<catProductos> dataP = examen.catProductos.ToList();
+            foreach (catProductos cP in dataP)
+            {
+                if (cP.idTipoproducto == tipoProd)
+                {
+                    nTipoProd = cP.descripcion;
+                }
+            }
+
+            List<catOrigen> dataOr = examen.catOrigen.ToList();
+            foreach (catOrigen tOr in dataOr)
+            {
+                if (tOr.idOrigen == origen)
+                {
+                    nOrigen = tOr.descripcion;
+                }
+            }
+
+            List<catTipoProcesos> dataProc = examen.catTipoProcesos.ToList();
+            foreach (catTipoProcesos tProc in dataProc)
+            {
+                if (tProc.idTipoProceso == tipoP)
+                {
+                    nTipoP = tProc.descripcion;
+                }
+            }
 
             // Creamos un flujo de salida para el archivo PDF
             FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -140,15 +189,24 @@ namespace Trabajo.Controllers
 
             // Agregamos contenido al PDF
             Paragraph paragraph = new Paragraph("" +
-                "Identificador transaccion: " + id +
-                "\n"+
-                "Monto transaccion: " + des );
+            "Identificador transaccion: " + id +
+            "\n"+
+            "Monto transaccion: " + des +
+            "\n" +
+            "Tipo de producto: " + nTipoProd +
+            "\n" +
+            "Nombre cliente: " + nCliente +
+            "\n" +
+            "Tipo de proceso: " + nTipoP +
+            "\n" +
+            "Estado del proceso: " + nEstadoProc +
+            "\n" +
+            "Origen: " + nOrigen);
             doc.Add(paragraph);
 
             // Cerramos el documento y el flujo de salida
             doc.Close();
             fs.Close();
-
             return RedirectToAction("Transacciones");
         }
 
