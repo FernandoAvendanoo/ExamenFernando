@@ -1,0 +1,655 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExamenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="catEstadoProcesos">
+          <Key>
+            <PropertyRef Name="idEstadoProceso" />
+          </Key>
+          <Property Name="idEstadoProceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="fechaingreso" Type="date" />
+          <Property Name="estado" Type="varchar" MaxLength="100" />
+          <Property Name="idEstado" Type="int" />
+        </EntityType>
+        <EntityType Name="catEstados">
+          <Key>
+            <PropertyRef Name="idEstado" />
+          </Key>
+          <Property Name="idEstado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="catOrigen">
+          <Key>
+            <PropertyRef Name="idOrigen" />
+          </Key>
+          <Property Name="idOrigen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="catProductos">
+          <Key>
+            <PropertyRef Name="idTipoproducto" />
+          </Key>
+          <Property Name="idTipoproducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="idEstado" Type="int" />
+        </EntityType>
+        <EntityType Name="catSexo">
+          <Key>
+            <PropertyRef Name="idSexo" />
+          </Key>
+          <Property Name="idSexo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="catTipoProcesos">
+          <Key>
+            <PropertyRef Name="idTipoProceso" />
+          </Key>
+          <Property Name="idTipoProceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="fechaingreso" Type="date" />
+          <Property Name="idEstado" Type="int" />
+        </EntityType>
+        <EntityType Name="tblClientes">
+          <Key>
+            <PropertyRef Name="idClientes" />
+          </Key>
+          <Property Name="idClientes" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrimerNombre" Type="varchar" MaxLength="100" />
+          <Property Name="SegundoNombre" Type="varchar" MaxLength="100" />
+          <Property Name="PrimerApellido" Type="varchar" MaxLength="100" />
+          <Property Name="SegundoApellido" Type="varchar" MaxLength="100" />
+          <Property Name="TercerApellido" Type="varchar" MaxLength="100" />
+          <Property Name="idSexo" Type="int" />
+          <Property Name="fechaingreso" Type="date" />
+          <Property Name="Fotografia" Type="binary" MaxLength="16" />
+          <Property Name="idEstado" Type="int" />
+          <Property Name="idOrigen" Type="int" />
+        </EntityType>
+        <EntityType Name="tblTransacciones">
+          <Key>
+            <PropertyRef Name="idTransacciones" />
+          </Key>
+          <Property Name="idTransacciones" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="monto" Type="int" />
+          <Property Name="fechaTransaccion" Type="date" />
+          <Property Name="idClientes" Type="int" />
+          <Property Name="idTipoProducto" Type="int" />
+          <Property Name="idTipoProceso" Type="int" />
+          <Property Name="idEstadoProceso" Type="int" />
+          <Property Name="idOrigen" Type="int" />
+        </EntityType>
+        <Association Name="FK__catEstado__idEst__403A8C7D">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="catEstadoProcesos" Type="Self.catEstadoProcesos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catEstadoProcesos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__catProduc__idEst__3D5E1FD2">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="catProductos" Type="Self.catProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catProductos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__catTipoPr__idEst__4316F928">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="catTipoProcesos" Type="Self.catTipoProcesos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catTipoProcesos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblClient__idOri__46E78A0C">
+          <End Role="catOrigen" Type="Self.catOrigen" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catOrigen">
+              <PropertyRef Name="idOrigen" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblClient__idSex__45F365D3">
+          <End Role="catSexo" Type="Self.catSexo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catSexo">
+              <PropertyRef Name="idSexo" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idSexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblClientes_catEstados">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Insertar_Transaccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Parametro1" Type="int" Mode="In" />
+          <Parameter Name="Parametro2" Type="varchar" Mode="In" />
+          <Parameter Name="Parametro3" Type="datetime" Mode="In" />
+          <Parameter Name="Parametro4" Type="int" Mode="In" />
+          <Parameter Name="Parametro5" Type="int" Mode="In" />
+          <Parameter Name="Parametro6" Type="int" Mode="In" />
+          <Parameter Name="Parametro7" Type="int" Mode="In" />
+          <Parameter Name="Parametro8" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertarTransaccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Parametro1" Type="varchar" Mode="In" />
+          <Parameter Name="Parametro2" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ITransaccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Parametro2" Type="varchar" Mode="In" />
+          <Parameter Name="Parametro3" Type="datetime" Mode="In" />
+          <Parameter Name="Parametro4" Type="int" Mode="In" />
+          <Parameter Name="Parametro5" Type="int" Mode="In" />
+          <Parameter Name="Parametro6" Type="int" Mode="In" />
+          <Parameter Name="Parametro7" Type="int" Mode="In" />
+          <Parameter Name="Parametro8" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ExamenModelStoreContainer">
+          <EntitySet Name="catEstadoProcesos" EntityType="Self.catEstadoProcesos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catEstados" EntityType="Self.catEstados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catOrigen" EntityType="Self.catOrigen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catProductos" EntityType="Self.catProductos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catSexo" EntityType="Self.catSexo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catTipoProcesos" EntityType="Self.catTipoProcesos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblClientes" EntityType="Self.tblClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTransacciones" EntityType="Self.tblTransacciones" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__catEstado__idEst__403A8C7D" Association="Self.FK__catEstado__idEst__403A8C7D">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catEstadoProcesos" EntitySet="catEstadoProcesos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__catProduc__idEst__3D5E1FD2" Association="Self.FK__catProduc__idEst__3D5E1FD2">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catProductos" EntitySet="catProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__catTipoPr__idEst__4316F928" Association="Self.FK__catTipoPr__idEst__4316F928">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catTipoProcesos" EntitySet="catTipoProcesos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblClient__idOri__46E78A0C" Association="Self.FK__tblClient__idOri__46E78A0C">
+            <End Role="catOrigen" EntitySet="catOrigen" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblClient__idSex__45F365D3" Association="Self.FK__tblClient__idSex__45F365D3">
+            <End Role="catSexo" EntitySet="catSexo" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblClientes_catEstados" Association="Self.FK_tblClientes_catEstados">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="catEstadoProcesos">
+          <Key>
+            <PropertyRef Name="idEstadoProceso" />
+          </Key>
+          <Property Name="idEstadoProceso" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechaingreso" Type="DateTime" Precision="0" />
+          <Property Name="estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idEstado" Type="Int32" />
+          <NavigationProperty Name="catEstados" Relationship="Self.FK__catEstado__idEst__403A8C7D" FromRole="catEstadoProcesos" ToRole="catEstados" />
+          <NavigationProperty Name="tblTransacciones" Relationship="Self.FK__tblTransa__idEst__4BAC3F29" FromRole="catEstadoProcesos" ToRole="tblTransacciones" />
+        </EntityType>
+        <EntityType Name="catEstados">
+          <Key>
+            <PropertyRef Name="idEstado" />
+          </Key>
+          <Property Name="idEstado" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catEstadoProcesos" Relationship="Self.FK__catEstado__idEst__403A8C7D" FromRole="catEstados" ToRole="catEstadoProcesos" />
+          <NavigationProperty Name="catProductos" Relationship="Self.FK__catProduc__idEst__3D5E1FD2" FromRole="catEstados" ToRole="catProductos" />
+          <NavigationProperty Name="catTipoProcesos" Relationship="Self.FK__catTipoPr__idEst__4316F928" FromRole="catEstados" ToRole="catTipoProcesos" />
+          <NavigationProperty Name="tblClientes" Relationship="ExamenModel.FK_tblClientes_catEstados" FromRole="catEstados" ToRole="tblClientes" />
+        </EntityType>
+        <EntityType Name="catOrigen">
+          <Key>
+            <PropertyRef Name="idOrigen" />
+          </Key>
+          <Property Name="idOrigen" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblClientes" Relationship="Self.FK__tblClient__idOri__46E78A0C" FromRole="catOrigen" ToRole="tblClientes" />
+          <NavigationProperty Name="tblTransacciones" Relationship="Self.FK__tblTransa__idOri__4CA06362" FromRole="catOrigen" ToRole="tblTransacciones" />
+        </EntityType>
+        <EntityType Name="catProductos">
+          <Key>
+            <PropertyRef Name="idTipoproducto" />
+          </Key>
+          <Property Name="idTipoproducto" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idEstado" Type="Int32" />
+          <NavigationProperty Name="catEstados" Relationship="Self.FK__catProduc__idEst__3D5E1FD2" FromRole="catProductos" ToRole="catEstados" />
+          <NavigationProperty Name="tblTransacciones" Relationship="Self.FK__tblTransa__idTip__4D94879B" FromRole="catProductos" ToRole="tblTransacciones" />
+        </EntityType>
+        <EntityType Name="catSexo">
+          <Key>
+            <PropertyRef Name="idSexo" />
+          </Key>
+          <Property Name="idSexo" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblClientes" Relationship="Self.FK__tblClient__idSex__45F365D3" FromRole="catSexo" ToRole="tblClientes" />
+        </EntityType>
+        <EntityType Name="catTipoProcesos">
+          <Key>
+            <PropertyRef Name="idTipoProceso" />
+          </Key>
+          <Property Name="idTipoProceso" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechaingreso" Type="DateTime" Precision="0" />
+          <Property Name="idEstado" Type="Int32" />
+          <NavigationProperty Name="catEstados" Relationship="Self.FK__catTipoPr__idEst__4316F928" FromRole="catTipoProcesos" ToRole="catEstados" />
+          <NavigationProperty Name="tblTransacciones" Relationship="Self.FK__tblTransa__idTip__4AB81AF0" FromRole="catTipoProcesos" ToRole="tblTransacciones" />
+        </EntityType>
+        <EntityType Name="tblClientes">
+          <Key>
+            <PropertyRef Name="idClientes" />
+          </Key>
+          <Property Name="idClientes" Type="Int32" Nullable="false" />
+          <Property Name="PrimerNombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SegundoNombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PrimerApellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SegundoApellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TercerApellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idSexo" Type="Int32" />
+          <Property Name="fechaingreso" Type="DateTime" Precision="0" />
+          <Property Name="Fotografia" Type="Binary" MaxLength="16" FixedLength="true" />
+          <Property Name="idOrigen" Type="Int32" />
+          <NavigationProperty Name="catOrigen" Relationship="Self.FK__tblClient__idOri__46E78A0C" FromRole="tblClientes" ToRole="catOrigen" />
+          <NavigationProperty Name="catSexo" Relationship="Self.FK__tblClient__idSex__45F365D3" FromRole="tblClientes" ToRole="catSexo" />
+          <NavigationProperty Name="tblTransacciones" Relationship="Self.FK__tblTransa__idCli__49C3F6B7" FromRole="tblClientes" ToRole="tblTransacciones" />
+          <Property Name="idEstado" Type="Int32" />
+          <NavigationProperty Name="catEstados" Relationship="ExamenModel.FK_tblClientes_catEstados" FromRole="tblClientes" ToRole="catEstados" />
+        </EntityType>
+        <EntityType Name="tblTransacciones">
+          <Key>
+            <PropertyRef Name="idTransacciones" />
+          </Key>
+          <Property Name="idTransacciones" Type="Int32" Nullable="false" />
+          <Property Name="monto" Type="Int32" />
+          <Property Name="fechaTransaccion" Type="DateTime" Precision="0" />
+          <Property Name="idClientes" Type="Int32" />
+          <Property Name="idTipoProducto" Type="Int32" />
+          <Property Name="idTipoProceso" Type="Int32" />
+          <Property Name="idEstadoProceso" Type="Int32" />
+          <Property Name="idOrigen" Type="Int32" />
+          <NavigationProperty Name="catEstadoProcesos" Relationship="Self.FK__tblTransa__idEst__4BAC3F29" FromRole="tblTransacciones" ToRole="catEstadoProcesos" />
+          <NavigationProperty Name="catOrigen" Relationship="Self.FK__tblTransa__idOri__4CA06362" FromRole="tblTransacciones" ToRole="catOrigen" />
+          <NavigationProperty Name="catProductos" Relationship="Self.FK__tblTransa__idTip__4D94879B" FromRole="tblTransacciones" ToRole="catProductos" />
+          <NavigationProperty Name="catTipoProcesos" Relationship="Self.FK__tblTransa__idTip__4AB81AF0" FromRole="tblTransacciones" ToRole="catTipoProcesos" />
+          <NavigationProperty Name="tblClientes" Relationship="Self.FK__tblTransa__idCli__49C3F6B7" FromRole="tblTransacciones" ToRole="tblClientes" />
+        </EntityType>
+        <Association Name="FK__catEstado__idEst__403A8C7D">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1" />
+          <End Role="catEstadoProcesos" Type="Self.catEstadoProcesos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catEstadoProcesos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTransa__idEst__4BAC3F29">
+          <End Role="catEstadoProcesos" Type="Self.catEstadoProcesos" Multiplicity="0..1" />
+          <End Role="tblTransacciones" Type="Self.tblTransacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstadoProcesos">
+              <PropertyRef Name="idEstadoProceso" />
+            </Principal>
+            <Dependent Role="tblTransacciones">
+              <PropertyRef Name="idEstadoProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__catProduc__idEst__3D5E1FD2">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1" />
+          <End Role="catProductos" Type="Self.catProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catProductos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__catTipoPr__idEst__4316F928">
+          <End Role="catEstados" Type="Self.catEstados" Multiplicity="0..1" />
+          <End Role="catTipoProcesos" Type="Self.catTipoProcesos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="catTipoProcesos">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblClient__idOri__46E78A0C">
+          <End Role="catOrigen" Type="Self.catOrigen" Multiplicity="0..1" />
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catOrigen">
+              <PropertyRef Name="idOrigen" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTransa__idOri__4CA06362">
+          <End Role="catOrigen" Type="Self.catOrigen" Multiplicity="0..1" />
+          <End Role="tblTransacciones" Type="Self.tblTransacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catOrigen">
+              <PropertyRef Name="idOrigen" />
+            </Principal>
+            <Dependent Role="tblTransacciones">
+              <PropertyRef Name="idOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTransa__idTip__4D94879B">
+          <End Role="catProductos" Type="Self.catProductos" Multiplicity="0..1" />
+          <End Role="tblTransacciones" Type="Self.tblTransacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catProductos">
+              <PropertyRef Name="idTipoproducto" />
+            </Principal>
+            <Dependent Role="tblTransacciones">
+              <PropertyRef Name="idTipoProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblClient__idSex__45F365D3">
+          <End Role="catSexo" Type="Self.catSexo" Multiplicity="0..1" />
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catSexo">
+              <PropertyRef Name="idSexo" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idSexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTransa__idTip__4AB81AF0">
+          <End Role="catTipoProcesos" Type="Self.catTipoProcesos" Multiplicity="0..1" />
+          <End Role="tblTransacciones" Type="Self.tblTransacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catTipoProcesos">
+              <PropertyRef Name="idTipoProceso" />
+            </Principal>
+            <Dependent Role="tblTransacciones">
+              <PropertyRef Name="idTipoProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTransa__idCli__49C3F6B7">
+          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="0..1" />
+          <End Role="tblTransacciones" Type="Self.tblTransacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClientes">
+              <PropertyRef Name="idClientes" />
+            </Principal>
+            <Dependent Role="tblTransacciones">
+              <PropertyRef Name="idClientes" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamenEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="catEstadoProcesos" EntityType="Self.catEstadoProcesos" />
+          <EntitySet Name="catEstados" EntityType="Self.catEstados" />
+          <EntitySet Name="catOrigen" EntityType="Self.catOrigen" />
+          <EntitySet Name="catProductos" EntityType="Self.catProductos" />
+          <EntitySet Name="catSexo" EntityType="Self.catSexo" />
+          <EntitySet Name="catTipoProcesos" EntityType="Self.catTipoProcesos" />
+          <EntitySet Name="tblClientes" EntityType="Self.tblClientes" />
+          <EntitySet Name="tblTransacciones" EntityType="Self.tblTransacciones" />
+          <AssociationSet Name="FK__catEstado__idEst__403A8C7D" Association="Self.FK__catEstado__idEst__403A8C7D">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catEstadoProcesos" EntitySet="catEstadoProcesos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTransa__idEst__4BAC3F29" Association="Self.FK__tblTransa__idEst__4BAC3F29">
+            <End Role="catEstadoProcesos" EntitySet="catEstadoProcesos" />
+            <End Role="tblTransacciones" EntitySet="tblTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__catProduc__idEst__3D5E1FD2" Association="Self.FK__catProduc__idEst__3D5E1FD2">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catProductos" EntitySet="catProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__catTipoPr__idEst__4316F928" Association="Self.FK__catTipoPr__idEst__4316F928">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="catTipoProcesos" EntitySet="catTipoProcesos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblClient__idOri__46E78A0C" Association="Self.FK__tblClient__idOri__46E78A0C">
+            <End Role="catOrigen" EntitySet="catOrigen" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTransa__idOri__4CA06362" Association="Self.FK__tblTransa__idOri__4CA06362">
+            <End Role="catOrigen" EntitySet="catOrigen" />
+            <End Role="tblTransacciones" EntitySet="tblTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTransa__idTip__4D94879B" Association="Self.FK__tblTransa__idTip__4D94879B">
+            <End Role="catProductos" EntitySet="catProductos" />
+            <End Role="tblTransacciones" EntitySet="tblTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblClient__idSex__45F365D3" Association="Self.FK__tblClient__idSex__45F365D3">
+            <End Role="catSexo" EntitySet="catSexo" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTransa__idTip__4AB81AF0" Association="Self.FK__tblTransa__idTip__4AB81AF0">
+            <End Role="catTipoProcesos" EntitySet="catTipoProcesos" />
+            <End Role="tblTransacciones" EntitySet="tblTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTransa__idCli__49C3F6B7" Association="Self.FK__tblTransa__idCli__49C3F6B7">
+            <End Role="tblClientes" EntitySet="tblClientes" />
+            <End Role="tblTransacciones" EntitySet="tblTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblClientes_catEstados" Association="ExamenModel.FK_tblClientes_catEstados">
+            <End Role="catEstados" EntitySet="catEstados" />
+            <End Role="tblClientes" EntitySet="tblClientes" />
+          </AssociationSet>
+          <FunctionImport Name="Insertar_Transaccion">
+            <Parameter Name="Parametro1" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro2" Mode="In" Type="String" />
+            <Parameter Name="Parametro3" Mode="In" Type="DateTime" />
+            <Parameter Name="Parametro4" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro5" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro6" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro7" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro8" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarTransaccion">
+            <Parameter Name="Parametro1" Mode="In" Type="String" />
+            <Parameter Name="Parametro2" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ITransaccion">
+            <Parameter Name="Parametro2" Mode="In" Type="String" />
+            <Parameter Name="Parametro3" Mode="In" Type="DateTime" />
+            <Parameter Name="Parametro4" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro5" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro6" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro7" Mode="In" Type="Int32" />
+            <Parameter Name="Parametro8" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <Association Name="FK_tblClientes_catEstados">
+          <End Type="ExamenModel.catEstados" Role="catEstados" Multiplicity="0..1" />
+          <End Type="ExamenModel.tblClientes" Role="tblClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catEstados">
+              <PropertyRef Name="idEstado" />
+            </Principal>
+            <Dependent Role="tblClientes">
+              <PropertyRef Name="idEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamenModelStoreContainer" CdmEntityContainer="ExamenEntities1">
+          <EntitySetMapping Name="catEstadoProcesos">
+            <EntityTypeMapping TypeName="ExamenModel.catEstadoProcesos">
+              <MappingFragment StoreEntitySet="catEstadoProcesos">
+                <ScalarProperty Name="idEstadoProceso" ColumnName="idEstadoProceso" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catEstados">
+            <EntityTypeMapping TypeName="ExamenModel.catEstados">
+              <MappingFragment StoreEntitySet="catEstados">
+                <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catOrigen">
+            <EntityTypeMapping TypeName="ExamenModel.catOrigen">
+              <MappingFragment StoreEntitySet="catOrigen">
+                <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catProductos">
+            <EntityTypeMapping TypeName="ExamenModel.catProductos">
+              <MappingFragment StoreEntitySet="catProductos">
+                <ScalarProperty Name="idTipoproducto" ColumnName="idTipoproducto" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catSexo">
+            <EntityTypeMapping TypeName="ExamenModel.catSexo">
+              <MappingFragment StoreEntitySet="catSexo">
+                <ScalarProperty Name="idSexo" ColumnName="idSexo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catTipoProcesos">
+            <EntityTypeMapping TypeName="ExamenModel.catTipoProcesos">
+              <MappingFragment StoreEntitySet="catTipoProcesos">
+                <ScalarProperty Name="idTipoProceso" ColumnName="idTipoProceso" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+                <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblClientes">
+            <EntityTypeMapping TypeName="ExamenModel.tblClientes">
+              <MappingFragment StoreEntitySet="tblClientes">
+                <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+                <ScalarProperty Name="idClientes" ColumnName="idClientes" />
+                <ScalarProperty Name="PrimerNombre" ColumnName="PrimerNombre" />
+                <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
+                <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
+                <ScalarProperty Name="SegundoApellido" ColumnName="SegundoApellido" />
+                <ScalarProperty Name="TercerApellido" ColumnName="TercerApellido" />
+                <ScalarProperty Name="idSexo" ColumnName="idSexo" />
+                <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+                <ScalarProperty Name="Fotografia" ColumnName="Fotografia" />
+                <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTransacciones">
+            <EntityTypeMapping TypeName="ExamenModel.tblTransacciones">
+              <MappingFragment StoreEntitySet="tblTransacciones">
+                <ScalarProperty Name="idTransacciones" ColumnName="idTransacciones" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="fechaTransaccion" ColumnName="fechaTransaccion" />
+                <ScalarProperty Name="idClientes" ColumnName="idClientes" />
+                <ScalarProperty Name="idTipoProducto" ColumnName="idTipoProducto" />
+                <ScalarProperty Name="idTipoProceso" ColumnName="idTipoProceso" />
+                <ScalarProperty Name="idEstadoProceso" ColumnName="idEstadoProceso" />
+                <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Insertar_Transaccion" FunctionName="ExamenModel.Store.Insertar_Transaccion" />
+          <FunctionImportMapping FunctionImportName="InsertarTransaccion" FunctionName="ExamenModel.Store.InsertarTransaccion" />
+          <FunctionImportMapping FunctionImportName="ITransaccion" FunctionName="ExamenModel.Store.ITransaccion" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

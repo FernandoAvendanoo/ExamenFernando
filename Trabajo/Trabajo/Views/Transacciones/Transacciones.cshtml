@@ -1,0 +1,250 @@
+﻿@model Trabajo.Models.tblTransacciones
+@{
+    ViewBag.Title = "Transacciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Transacciones</h2>
+
+
+@{
+    if (ViewBag.msj != null)
+    {
+
+        switch (ViewBag.msj)
+        {
+            case "Guardado":
+                <script>alert('Guardado con exito!');</script>
+
+                break;
+            case "Eliminado":
+                <script>alert('Eliminado con exito!');</script>
+                break;
+            case "Modificado":
+                <script>alert('Modificado con exito!');</script>
+                break;
+        }
+
+    }
+}
+
+<script>
+    //Cargar el formulario con datos seleccionados para eliminar
+    function cargarDel(id, des) {
+        document.getElementById("txtTransaccion").value = id;
+        document.getElementById("txtMonto").value = des;
+
+
+        $("#btnEliminar").show();
+        $("#btnModificar").hide();
+        $("#btnGuardar").hide();
+    }
+    //Confirmar para eliminar
+
+    function confirmarDel() {
+        if (confirm("Desea eliminar el registro?")) {
+            document.getElementById("eliminacion").value = "si";
+        } else {
+            document.getElementById("eliminacion").value = "no";
+        }
+    }
+
+    //Cargar el formulario con datos seleccionados para modificar
+    function cargarMo(id, des,tProceso,cliente,EProceso,TProducto,origen) {
+        document.getElementById("txtTransaccion").value = id;
+        document.getElementById("txtMonto").value = des;
+        document.getElementById("txtTipoProcesos").value = tProceso;
+        document.getElementById("txtClientes").value = cliente;
+        document.getElementById("txtEsstadoProcesos").value = EProceso;
+        document.getElementById("txtTipoProducto").value = TProducto;
+        document.getElementById("txtOrigen").value = origen;
+
+        $("#btnEliminar").hide();
+        $("#btnModificar").show();
+        $("#btnGuardar").hide();
+    }
+    //Confirmar para eliminar
+
+    function confirmarMo() {
+        if (confirm("Desea modificar el registro?")) {
+            document.getElementById("modificacion").value = "si";
+        } else {
+            document.getElementById("modificacion").value = "no";
+        }
+    }
+
+    function cargarverPDF(id, des) {
+        fetch('/TransaccionesController/GenerarPDF', {
+            method: 'POST', // o 'GET' según tu caso
+            headers: {
+                'Content-Type': 'application/json'
+                // Agrega cualquier otro encabezado necesario aquí
+            },
+            // Puedes enviar datos en el cuerpo de la solicitud si es necesario
+            body: JSON.stringify({ id: id, des: des })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Puedes mostrar la respuesta en la consola
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+
+
+
+    $(document).ready(function () {
+        $("#btnNuevo").on("click", function () {
+            $("#btnEliminar").hide();
+            $("#btnModificar").hide();
+            $("#btnGuardar").show();
+        });
+    })
+</script>
+
+<fieldset>
+    <button type="button" id="btnNuevo" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Agregar registro
+    </button>
+</fieldset>
+
+<div id="contenido">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID Transacciones</th>
+                <th>Monto</th>
+                <th>Fecha transaccion</th>
+                <th>Cliente</th>
+                <th>Tipo Producto</th>
+                <th>Tipo Proceso</th>
+                <th>Estado Proceso</th>
+                <th>Origen</th>
+                <th>Acciones</th>
+                <th>Ver PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (Trabajo.Models.tblTransacciones item in ViewBag.data)
+                {
+                        <tr>
+                            <td>@item.idTransacciones</td>
+                            <td>@item.monto</td>
+                            <td>@item.fechaTransaccion</td>
+                            @foreach (Trabajo.Models.tblClientes origenClient in ViewBag.clientesData)
+                            {
+                                if (origenClient.idClientes == item.idClientes)
+                                {
+                                    <td>@origenClient.PrimerNombre</td>
+                                }
+                            }
+
+                            @foreach (Trabajo.Models.catProductos prod in ViewBag.productosData)
+                            {
+                                if (prod.idTipoproducto == item.idTipoProducto)
+                                {
+                                    <td>@prod.descripcion</td>
+                                }
+                            }
+
+                            @foreach (Trabajo.Models.catTipoProcesos tProceso in ViewBag.tProcesosData)
+                            {
+                                if (tProceso.idTipoProceso == item.idTipoProceso)
+                                {
+                                    <td>@tProceso.idTipoProceso</td>
+                                }
+                            }
+
+                            @foreach (Trabajo.Models.catEstadoProcesos origenEP in ViewBag.EProceso)
+                            {
+                                if (origenEP.idEstadoProceso == item.idEstadoProceso)
+                                {
+                                    <td>@origenEP.descripcion</td>
+                                }
+                            }
+                            @foreach (Trabajo.Models.catOrigen origen in ViewBag.origenData)
+                            {
+                                if (origen.idOrigen == item.idOrigen)
+                                {
+                                    <td>@origen.descripcion</td>
+                                }
+                            }
+
+                            <td>
+                                <a href="" onclick="javascript:cargarDel('@item.idTransacciones','@item.monto')"
+                                   data-bs-toggle="modal" data-bs-target="#exampleModal"> Eliminar</a>
+                                |<a href="" onclick="javascript:cargarMo('@item.idTransacciones','@item.monto','@item.idTipoProceso','@item.idClientes','@item.idEstadoProceso','@item.idTipoProducto','@item.idOrigen')"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"> Modificar</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("GenerarPDF", "Transacciones", new { id = item.idTransacciones, des = item.monto })">Generar PDF</a>
+
+                            </td>
+                        </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Transacciones", "Transacciones", FormMethod.Post, htmlAttributes: new { id = "form1", enctype = "multipart/form-data" }))
+                {
+                    @Html.LabelFor(x => x.idTransacciones, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.TextBoxFor(x => x.idTransacciones, htmlAttributes: new { @class = "form-control", id = "txtTransaccion", @readonly = "readonly" }) <br />
+
+                    @Html.LabelFor(x => x.monto, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.TextBoxFor(x => x.monto, htmlAttributes: new { @class = "form-control", id = "txtMonto" }) <br />
+
+
+                    @Html.LabelFor(x => x.idTipoProceso, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.DropDownListFor(x => x.idTipoProceso, (IEnumerable<SelectListItem>)ViewBag.comboTProc, htmlAttributes: new { @class = "form-control", id = "txtTipoProcesos" }) <br />
+
+                    @Html.LabelFor(x => x.idClientes, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.DropDownListFor(x => x.idClientes, (IEnumerable<SelectListItem>)ViewBag.comboClientes, htmlAttributes: new { @class = "form-control", id = "txtClientes" }) <br />
+
+                    @Html.LabelFor(x => x.idEstadoProceso, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.DropDownListFor(x => x.idEstadoProceso, (IEnumerable<SelectListItem>)ViewBag.comboEProc, htmlAttributes: new { @class = "form-control", id = "txtEsstadoProcesos" }) <br />
+
+                    @Html.LabelFor(x => x.idTipoProducto, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.DropDownListFor(x => x.idTipoProducto, (IEnumerable<SelectListItem>)ViewBag.comboProd, htmlAttributes: new { @class = "form-control", id = "txtTipoProducto" }) <br />
+
+                    @Html.LabelFor(x => x.idOrigen, htmlAttributes: new { @class = "label label -info" }) <br />
+                    @Html.DropDownListFor(x => x.idOrigen, (IEnumerable<SelectListItem>)ViewBag.comboOrigen, htmlAttributes: new { @class = "form-control", id = "txtOrigen" }) <br />
+
+
+
+                    <input type="hidden" name="eliminacion" id="eliminacion" value="" />
+                    <input type="hidden" name="modificacion" id="modificacion" value="" />
+                    <input type="hidden" name="verPDF" id="verPDF" value="" />
+
+
+                    <input type="submit" name="boton" value="Guardar" id="btnGuardar" class="btn btn-success" />
+                    <input type="submit" onclick="javascript: confirmarDel()" name="boton" value="Eliminar" id="btnEliminar" class="btn btn-danger" />
+                    <input type="submit" onclick="javascript: confirmarMo()" name="boton" value="Modificar" id="btnModificar" class="btn btn-warning" />
+
+                }
+
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

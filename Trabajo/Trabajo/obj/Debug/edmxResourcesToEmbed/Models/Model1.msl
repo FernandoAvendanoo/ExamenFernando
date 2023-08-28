@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ExamenModelStoreContainer" CdmEntityContainer="ExamenEntities1">
+    <EntitySetMapping Name="catEstadoProcesos">
+      <EntityTypeMapping TypeName="ExamenModel.catEstadoProcesos">
+        <MappingFragment StoreEntitySet="catEstadoProcesos">
+          <ScalarProperty Name="idEstadoProceso" ColumnName="idEstadoProceso" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catEstados">
+      <EntityTypeMapping TypeName="ExamenModel.catEstados">
+        <MappingFragment StoreEntitySet="catEstados">
+          <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catOrigen">
+      <EntityTypeMapping TypeName="ExamenModel.catOrigen">
+        <MappingFragment StoreEntitySet="catOrigen">
+          <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catProductos">
+      <EntityTypeMapping TypeName="ExamenModel.catProductos">
+        <MappingFragment StoreEntitySet="catProductos">
+          <ScalarProperty Name="idTipoproducto" ColumnName="idTipoproducto" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catSexo">
+      <EntityTypeMapping TypeName="ExamenModel.catSexo">
+        <MappingFragment StoreEntitySet="catSexo">
+          <ScalarProperty Name="idSexo" ColumnName="idSexo" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catTipoProcesos">
+      <EntityTypeMapping TypeName="ExamenModel.catTipoProcesos">
+        <MappingFragment StoreEntitySet="catTipoProcesos">
+          <ScalarProperty Name="idTipoProceso" ColumnName="idTipoProceso" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+          <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblClientes">
+      <EntityTypeMapping TypeName="ExamenModel.tblClientes">
+        <MappingFragment StoreEntitySet="tblClientes">
+          <ScalarProperty Name="idEstado" ColumnName="idEstado" />
+          <ScalarProperty Name="idClientes" ColumnName="idClientes" />
+          <ScalarProperty Name="PrimerNombre" ColumnName="PrimerNombre" />
+          <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
+          <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
+          <ScalarProperty Name="SegundoApellido" ColumnName="SegundoApellido" />
+          <ScalarProperty Name="TercerApellido" ColumnName="TercerApellido" />
+          <ScalarProperty Name="idSexo" ColumnName="idSexo" />
+          <ScalarProperty Name="fechaingreso" ColumnName="fechaingreso" />
+          <ScalarProperty Name="Fotografia" ColumnName="Fotografia" />
+          <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTransacciones">
+      <EntityTypeMapping TypeName="ExamenModel.tblTransacciones">
+        <MappingFragment StoreEntitySet="tblTransacciones">
+          <ScalarProperty Name="idTransacciones" ColumnName="idTransacciones" />
+          <ScalarProperty Name="monto" ColumnName="monto" />
+          <ScalarProperty Name="fechaTransaccion" ColumnName="fechaTransaccion" />
+          <ScalarProperty Name="idClientes" ColumnName="idClientes" />
+          <ScalarProperty Name="idTipoProducto" ColumnName="idTipoProducto" />
+          <ScalarProperty Name="idTipoProceso" ColumnName="idTipoProceso" />
+          <ScalarProperty Name="idEstadoProceso" ColumnName="idEstadoProceso" />
+          <ScalarProperty Name="idOrigen" ColumnName="idOrigen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Insertar_Transaccion" FunctionName="ExamenModel.Store.Insertar_Transaccion" />
+    <FunctionImportMapping FunctionImportName="InsertarTransaccion" FunctionName="ExamenModel.Store.InsertarTransaccion" />
+    <FunctionImportMapping FunctionImportName="ITransaccion" FunctionName="ExamenModel.Store.ITransaccion" />
+  </EntityContainerMapping>
+</Mapping>
